@@ -74,18 +74,18 @@ export const productSlice = createSlice({
     searchingItems: (state, action) => {
       const searchItems = action.payload.toLowerCase();
       console.log(searchItems);
-      state.productItems = state.filterItems
-        ? state.filterItems.filter((product) =>
+      state.productItems = state.productItems
+        ? state.productItems.filter((product) =>
             product.title.toLowerCase().includes(searchItems)
           )
-        : state.productItems.filter((product) =>
+        : state.filterItems.filter((product) =>
             product.title.toLowerCase().includes(searchItems)
           );
       state.filterItems = state.filterItems
-        ? state.filterItems.filter((product) =>
+        ? state.productItems.filter((product) =>
             product.title.toLowerCase().includes(searchItems)
           )
-        : state.productItems.filter((product) =>
+        : state.filterItems.filter((product) =>
             product.title.toLowerCase().includes(searchItems)
           );
     },
