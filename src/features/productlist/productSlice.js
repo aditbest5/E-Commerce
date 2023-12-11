@@ -2,8 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   productItems: [],
+  categoryItems: [],
   filterItems: [],
-  searchItem: [],
 };
 
 export const productSlice = createSlice({
@@ -16,18 +16,21 @@ export const productSlice = createSlice({
     },
     filteringItems: (state, action) => {
       const selectCategory = action.payload;
-      console.log(selectCategory);
       if (selectCategory) {
         state.filterItems = state.productItems.filter(
           (product) => product.category === selectCategory
         );
-      } else {
+      } else if (selectCategory == "00") {
         state.filterItems = state.productItems;
       }
     },
+    addCategoryList: (state, action) => {
+      const listCategory = action.payload;
+      state.categoryItems = listCategory;
+    },
+
     sortingList: (state, action) => {
       const selectSort = action.payload;
-      console.log(selectSort);
       if (selectSort == "lowest") {
         state.filterItems.length > 0
           ? state.filterItems.sort((a, b) => {
@@ -52,7 +55,7 @@ export const productSlice = createSlice({
           : state.productItems.sort((a, b) => {
               return a.title.localeCompare(b.title);
             });
-      } else {
+      } else if (selectSort == "descending") {
         state.filterItems.length > 0
           ? state.filterItems.sort((a, b) => {
               return b.title.localeCompare(a.title);
@@ -62,13 +65,44 @@ export const productSlice = createSlice({
             });
       }
     },
+    resetList: (state, action) => {
+      const items = action.payload;
+      console.log(items);
+      state.filterItems = [];
+      state.productItems = items;
+    },
+    searchingItems: (state, action) => {
+      const searchItems = action.payload.toLowerCase();
+      console.log(searchItems);
+      state.productItems = state.filterItems
+        ? state.filterItems.filter((product) =>
+            product.title.toLowerCase().includes(searchItems)
+          )
+        : state.productItems.filter((product) =>
+            product.title.toLowerCase().includes(searchItems)
+          );
+      state.filterItems = state.filterItems
+        ? state.filterItems.filter((product) =>
+            product.title.toLowerCase().includes(searchItems)
+          )
+        : state.productItems.filter((product) =>
+            product.title.toLowerCase().includes(searchItems)
+          );
+    },
   },
 });
 
-export const { addItemToList, filteringItems, sortingList } =
-  productSlice.actions;
+export const {
+  addItemToList,
+  filteringItems,
+  sortingList,
+  addCategoryList,
+  resetList,
+  searchingItems,
+} = productSlice.actions;
 
 export default productSlice;
 
 export const ProductItems = (state) => state.product.productItems;
 export const FilterItems = (state) => state.product.filterItems;
+export const CategoryItems = (state) => state.product.categoryItems;

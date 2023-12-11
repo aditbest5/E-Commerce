@@ -10,13 +10,11 @@ import Search from "./Search";
 const Header = ({ handleShowModalCart }) => {
   const cartItem = useSelector(selectCartItems);
   const totalItem = useSelector(selectCartTotalItems);
-  const [search, setSearch] = useState([]);
   const [showMenu, setShowMenu] = useState(false);
 
   const handleToggleMenu = () => {
     setShowMenu(!showMenu);
   };
-  const handleSearch = (searchTerm) => {};
   console.log(cartItem);
   const [hide, setHide] = useState(true);
   const dropDown = () => {
@@ -37,27 +35,24 @@ const Header = ({ handleShowModalCart }) => {
             onClick={handleToggleMenu}
             type='button'
             className='block md:hidden text-gray-100'>
-            {/* Tambahkan icon untuk mobile */}
-            {/* Contoh: <FontAwesomeIcon icon={faBars} /> */}
             Menu
           </button>
           <div className='hidden md:flex gap-5 items-center'>
-            <Search onSearch={handleSearch} />
+            <Search  />
             <button
-              // onClick={dropDown}
               onClick={handleShowModalCart}
               type='button'
               className='relative rounded-full bg-blue-800 p-2 text-gray-100 flex flex-row gap-3'>
               <img src={Cart} alt='cart' className='w-6 h-6' />
-              <span className='absolute -top-2 -right-2 w-6 h-6 rounded-full bg-red-600 text-white text-sm flex items-center justify-center'>
-                {totalItem}
-              </span>
+              {  totalItem ? (<>
+                <span className='absolute -top-2 -right-2 w-6 h-6 rounded-full bg-red-600 text-white text-sm flex items-center justify-center'>  {totalItem} </span></>) : ""}
+                {/* {totalItem} */}
             </button>
           </div>
         </div>
         {showMenu && (
           <div className='md:hidden'>
-            <Search onSearch={handleSearch} />
+            <Search  />
             <button
               onClick={handleShowModalCart}
               type='button'

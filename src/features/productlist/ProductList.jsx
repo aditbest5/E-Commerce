@@ -4,84 +4,54 @@ import { addItemToCart } from "../cart/cartSlice";
 import {
   addItemToList,
   ProductItems,
-  filteringItems,
   FilterItems,
-  sortingList,
+  addCategoryList,
+  resetList
 } from "./productSlice";
+import FilterSort from "../../components/FilterSort";
 const ProductList = () => {
   const [isLoading, setLoading] = useState(false);
   const products = useSelector(ProductItems);
   const filterProduct = useSelector(FilterItems);
-  const [categories, setCategories] = useState([]);
   const dispatch = useDispatch();
+  const fetchProducts = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch("https://fakestoreapi.com/products");
+      const data = await response.json();
+      const Categories = [
+        ...new Set(data.map((product) => product.category)),
+      ];
+      dispatch(addCategoryList(Categories))
+      dispatch(addItemToList(data));
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
+  };
   useEffect(() => {
-    const fetchProducts = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch("https://fakestoreapi.com/products");
-        const data = await response.json();
-        const Categories = [
-          ...new Set(data.map((product) => product.category)),
-        ];
-        setCategories(Categories);
-        dispatch(addItemToList(data));
-      } catch (error) {
-        console.log(error);
-        setLoading(false);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchProducts();
   }, [dispatch]);
-  console.log(products);
 
   const handleClickBuy = (product) => {
     dispatch(addItemToCart(product));
   };
-  const handleChangeFilter = (e) => {
-    const selectCategory = e.target.value;
-    dispatch(filteringItems(selectCategory));
-  };
-  const handleChangeSorting = (e) => {
-    const selectSort = e.target.value;
-    dispatch(sortingList(selectSort));
-  };
+  const resetButton= (product)=>{
+    dispatch(resetList(product))
+    fetchProducts();
+    document.getElementById('dropdown-filter').value = '00'
+    document.getElementById('dropdown-sorting').value = '00'
+  }
   {
     if (isLoading) {
       return (
         <>
-          <div className='relative mt-4 flex flex-row gap-3'>
-            <div>
-              <h1>Filtering:</h1>
-              <select
-                id='dropdown'
-                onChange={handleChangeFilter}
-                className='block appearance-none bg-white border border-gray-400 hover:border-gray-500 px-4 py-1 rounded shadow leading-tight focus:outline-none focus:border-blue-500'>
-                <option value=''>All Categories</option>
-                {categories.map((category) => {
-                  return (
-                    <>
-                      <option value={category}>{category}</option>
-                    </>
-                  );
-                })}
-              </select>
+          <FilterSort />
+          <div className="mt-5 flex flex-col justify-end">
+              <button onClick={()=> resetButton(products)} className="block appearance-none bg-indigo-500 text-lime-100 border border-gray-400 hover:border-gray-600 px-4 py-1 rounded shadow leading-tight focus:outline-none focus:border-blue-500 w-[10%]">Reset</button>
             </div>
-            <div>
-              <h1>Sorting:</h1>
-              <select
-                id='dropdown'
-                onChange={handleChangeSorting}
-                className='block appearance-none bg-white border border-gray-400 hover:border-gray-500 px-4 py-1 rounded shadow leading-tight focus:outline-none focus:border-blue-500'>
-                <option hidden>--Sort By--</option>
-                <option value='ascending'>A-Z</option>
-                <option value='descending'>Z-A</option>
-                <option value='highest'>Highest Price</option>
-                <option value='lowest'>Lowest Price</option>
-              </select>
-            </div>
-          </div>
           <div className='flex items-center flex-row justify-center mt-10 mb-36 py-24'>
             <h1>Waiting..</h1>
           </div>
@@ -91,38 +61,9 @@ const ProductList = () => {
       if (filterProduct.length > 0) {
         return (
           <>
-            <div className='relative mt-4 flex flex-row gap-3'>
-              <div>
-                <h1>Filtering:</h1>
-                <select
-                  id='dropdown'
-                  onChange={handleChangeFilter}
-                  className='block appearance-none bg-white border border-gray-400 hover:border-gray-500 px-4 py-1 rounded shadow leading-tight focus:outline-none focus:border-blue-500'>
-                  <option value=''>All Categories</option>
-                  {categories.map((category) => {
-                    return (
-                      <>
-                        <option key={category} value={category}>
-                          {category}
-                        </option>
-                      </>
-                    );
-                  })}
-                </select>
-              </div>
-              <div>
-                <h1>Sorting:</h1>
-                <select
-                  id='dropdown'
-                  onChange={handleChangeSorting}
-                  className='block appearance-none bg-white border border-gray-400 hover:border-gray-500 px-4 py-1 rounded shadow leading-tight focus:outline-none focus:border-blue-500'>
-                  <option hidden>--Sort By--</option>
-                  <option value='ascending'>A-Z</option>
-                  <option value='descending'>Z-A</option>
-                  <option value='highest'>Highest Price</option>
-                  <option value='lowest'>Lowest Price</option>
-                </select>
-              </div>
+            <FilterSort/>
+            <div className="mt-5 flex flex-col justify-end">
+              <button onClick={()=> resetButton(products)} className="block appearance-none bg-indigo-500 text-lime-100 border border-gray-400 hover:border-gray-600 px-4 py-1 rounded shadow leading-tight focus:outline-none focus:border-blue-500 w-[10%]">Reset</button>
             </div>
             <div className='w-full h-full grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 my-10 py-5'>
               {filterProduct.map((product) => {
@@ -165,12 +106,11 @@ const ProductList = () => {
                         <a
                           href='#'
                           className='text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white'>
-                          {product.rating.count}
-                          reviews
+                          {product.rating.count} reviews
                         </a>
                       </div>
 
-                      <p className='text-sm font-thin'>${product.price}</p>
+                      <p className='text-sm font-bold'>${product.price}</p>
                     </div>
                   </div>
                 );
@@ -181,38 +121,9 @@ const ProductList = () => {
       } else if (products.length < 1) {
         return (
           <>
-            <div className='relative mt-4 flex flex-row gap-3'>
-              <div>
-                <h1>Filtering:</h1>
-                <select
-                  id='dropdown'
-                  onChange={handleChangeFilter}
-                  className='block appearance-none bg-white border border-gray-400 hover:border-gray-500 px-4 py-1 rounded shadow leading-tight focus:outline-none focus:border-blue-500'>
-                  <option value=''>All Categories</option>
-                  {categories.map((category) => {
-                    return (
-                      <>
-                        <option value={category}>{category}</option>
-                      </>
-                    );
-                  })}
-                </select>
-              </div>
-              <div>
-                <h1>Sorting:</h1>
-                <select
-                  id='dropdown'
-                  // value={selectedOption}
-                  // onChange={handleSelectChange}
-                  onChange={handleChangeSorting}
-                  className='block appearance-none bg-white border border-gray-400 hover:border-gray-500 px-4 py-1 rounded shadow leading-tight focus:outline-none focus:border-blue-500'>
-                  <option hidden>--Sort By--</option>
-                  <option value='ascending'>A-Z</option>
-                  <option value='descending'>Z-A</option>
-                  <option value='highest'>Highest Price</option>
-                  <option value='lowest'>Lowest Price</option>
-                </select>
-              </div>
+            <FilterSort/>
+            <div className="mt-5 flex flex-col justify-end">
+              <button onClick={()=> resetButton(products)} className="block appearance-none bg-indigo-500 text-lime-100 border border-gray-400 hover:border-gray-600 px-4 py-1 rounded shadow leading-tight focus:outline-none focus:border-blue-500 w-[10%]">Reset</button>
             </div>
             <div className='flex items-center flex-row justify-center mt-10 mb-36 py-24'>
               <h1>Tidak Ada Data</h1>
@@ -222,38 +133,9 @@ const ProductList = () => {
       } else {
         return (
           <>
-            <div className='relative mt-4 flex flex-row gap-3'>
-              <div>
-                <h1>Filtering:</h1>
-                <select
-                  id='dropdown'
-                  onChange={handleChangeFilter}
-                  className='block appearance-none bg-white border border-gray-400 hover:border-gray-500 px-4 py-1 rounded shadow leading-tight focus:outline-none focus:border-blue-500'>
-                  <option value=''>All Categories</option>
-                  {categories.map((category) => {
-                    return (
-                      <>
-                        <option key={category} value={category}>
-                          {category}
-                        </option>
-                      </>
-                    );
-                  })}
-                </select>
-              </div>
-              <div>
-                <h1>Sorting:</h1>
-                <select
-                  id='dropdown'
-                  onChange={handleChangeSorting}
-                  className='block appearance-none bg-white border border-gray-400 hover:border-gray-500 px-4 py-1 rounded shadow leading-tight focus:outline-none focus:border-blue-500'>
-                  <option hidden>--Sort By--</option>
-                  <option value='ascending'>A-Z</option>
-                  <option value='descending'>Z-A</option>
-                  <option value='highest'>Highest Price</option>
-                  <option value='lowest'>Lowest Price</option>
-                </select>
-              </div>
+            <FilterSort/>
+            <div className="mt-5 flex flex-col justify-end">
+              <button onClick={()=> resetButton(products)}  className="block appearance-none bg-indigo-500 text-lime-100 border border-gray-400 hover:border-gray-600 px-4 py-1 rounded shadow leading-tight focus:outline-none focus:border-blue-500 w-[10%]">Reset</button>
             </div>
             <div className='w-full h-full grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 my-10 py-5'>
               {products.map((product) => {
@@ -300,7 +182,7 @@ const ProductList = () => {
                         </a>
                       </div>
 
-                      <p className='text-sm font-thin'>${product.price}</p>
+                      <p className='text-sm font-bold'>${product.price}</p>
                     </div>
                   </div>
                 );
