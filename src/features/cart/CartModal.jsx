@@ -37,49 +37,53 @@ const CartModal = ({ handleHideModalCart }) => {
   };
   return (
     <Modal>
-      <div className='flex flex-col gap-6 p-1: sm:p-2 w-full lg:w-[900px] md:max-h-[500px] w-[350px]'>
-        <div className='flex flex-col gap-6 max-h-[500px] overflow-auto'>
+      <div className="flex flex-col gap-6 p-1: sm:p-2 w-full lg:w-[900px] md:max-h-[500px] w-[350px]">
+        <div className="flex flex-col gap-6 max-h-[500px] overflow-auto">
           {cartItems.map((product) => {
             return (
               <div
-                className='w-full border-b-4 border-blue-200 pb-4'
-                key={product.id}>
-                <div className='flex items-center w-full'>
-                  <div className='w-[120px] h-auto overflow-hidden'>
+                className="w-full border-b-4 border-blue-200 pb-4"
+                key={product.id}
+              >
+                <div className="flex items-center w-full">
+                  <div className="w-[120px] h-auto overflow-hidden">
                     <img
                       src={product.image}
                       alt={product.title}
-                      className='w-full h-full object-cover'
+                      className="w-full h-full object-cover"
                     />
                   </div>
-                  <div className='ml-10 w-[75%]'>
-                    <h3 className='capitalize mt-3 text-lg'>{product.title}</h3>
-                    <div className='flex items-center gap-2'>
-                      <h4 className='text-sm'> Price: ${product.price}</h4>
-                      <h3 className='text-lg font-bold'></h3>
+                  <div className="ml-10 w-[75%]">
+                    <h3 className="capitalize mt-3 text-lg">{product.title}</h3>
+                    <div className="flex items-center gap-2">
+                      <h4 className="text-sm"> Price: ${product.price}</h4>
+                      <h3 className="text-lg font-bold"></h3>
                       Total: ${product.totalPrice}
                     </div>
-                    <div className='flex items-center gap-4 mt-4 ml-auto'>
+                    <div className="flex items-center gap-4 mt-4 ml-auto">
                       <button
                         onClick={() => handleClickSub(product)}
-                        type='button'
-                        className='rounded-full bg-blue-400 w-5 h-5 text-white flex items-center justify-center'>
+                        type="button"
+                        className="rounded-full bg-blue-400 w-5 h-5 text-white flex items-center justify-center"
+                      >
                         -
                       </button>
                       <h3>{product.quantity}</h3>
                       <button
-                        type='button'
+                        type="button"
                         onClick={() => handleClickAdd(product)}
-                        className='rounded-full bg-blue-400 w-5 h-5 text-white flex items-center justify-center'>
+                        className="rounded-full bg-blue-400 w-5 h-5 text-white flex items-center justify-center"
+                      >
                         +
                       </button>
                     </div>
                   </div>
-                  <div className='ml-10 w-[10%]'>
+                  <div className="ml-10 w-[10%]">
                     <button
-                      type='button'
+                      type="button"
                       onClick={() => handleClickRemove(product)}
-                      className='rounded-md bg-red-500 p-2 w-25 h-25 text-white flex items-center justify-center'>
+                      className="rounded-md bg-red-500 p-2 w-25 h-25 text-white flex items-center justify-center"
+                    >
                       Delete
                     </button>
                   </div>
@@ -89,20 +93,22 @@ const CartModal = ({ handleHideModalCart }) => {
           })}
         </div>
         <div>
-          <h3 className='text-md font-bold'>Total Item: {totalItems}</h3>
-          <h3 className='text-md font-bold'>Total Price: ${totalPrice}</h3>
+          <h3 className="text-md font-bold">Total Item: {totalItems}</h3>
+          <h3 className="text-md font-bold">Total Price: ${totalPrice}</h3>
         </div>
-        <div className='flex items-center justify-between'>
+        <div className="flex items-center justify-between">
           <button
-            type='button'
-            className='bg-slate-600 hover:bg-slate-800 text-white py-3 px-8 rounded-xl text-sm'
-            onClick={handleHideModalCart}>
+            type="button"
+            className="bg-slate-600 hover:bg-slate-800 text-white py-3 px-8 rounded-xl text-sm"
+            onClick={handleHideModalCart}
+          >
             Close
           </button>
           <button
-            type='button'
-            className='bg-green-600 hover:bg-slate-800 text-white font-bold py-3 px-8 rounded-xl text-sm'
-            onClick={handleCheckoutToWhatsapp}>
+            type="button"
+            className="bg-green-600 hover:bg-slate-800 text-white font-bold py-3 px-8 rounded-xl text-sm"
+            onClick={handleCheckoutToWhatsapp}
+          >
             Checkout (whatsapp)
           </button>
         </div>
