@@ -8,6 +8,7 @@ import {
   selectCartTotalItems,
   selectCartTotalPrices,
 } from "./cartSlice";
+
 const CartModal = ({ handleHideModalCart }) => {
   const cartItems = useSelector(selectCartItems);
   const totalItems = useSelector(selectCartTotalItems);
@@ -17,7 +18,7 @@ const CartModal = ({ handleHideModalCart }) => {
   const handleCheckoutToWhatsapp = () => {
     if (totalItems === 0) return;
 
-    const phoneNumber = "6282122640641";
+    const phoneNumber = "62895385984895";
     const message = encodeURIComponent(
       `Halo, saya ingin membeli ${totalItems} barang dengan total harga $${totalPrice}.`
     );
@@ -26,15 +27,19 @@ const CartModal = ({ handleHideModalCart }) => {
 
     window.open(URL, "_blank");
   };
+
   const handleClickAdd = (product) => {
     dispatch(addItemToCart(product));
   };
+
   const handleClickRemove = (product) => {
     dispatch(removeItemFromCart(product));
   };
+
   const handleClickSub = (product) => {
     dispatch(removeQuantity(product));
   };
+
   return (
     <Modal>
       <div className="flex flex-col gap-6 p-1: sm:p-2 w-full lg:w-[900px] md:max-h-[500px] w-[350px]">

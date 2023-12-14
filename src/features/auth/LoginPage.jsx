@@ -1,27 +1,67 @@
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { InputUser, handler } from "./userSlice";
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+import Swal from "sweetalert2";
+
 const LoginPage = () => {
   const dispatch = useDispatch();
   const userInput = useSelector(InputUser);
+  const navigate = useNavigate();
 
   const inputHandler = (event) => {
     const { name, value } = event.target;
-    dispatch(handler({ ...userInput, [name]: value }));
+    dispatch(handler({ [name]: value }));
+  };
+
+  const tipsButton = () => {
+    Swal.fire({
+      title: "User API",
+      html: `<h1>Use this api <span className='text-blue-800'>https://fakestoreapi.com/users</span> to get all user account in your browser or in your postname with GET method</h1>`,
+    });
   };
 
   const loginButton = (e) => {
     e.preventDefault();
-    console.log(userInput);
+    fetch("https://fakestoreapi.com/auth/login", {
+      method: "POST",
+      body: JSON.stringify(userInput),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        let { token } = json;
+        Cookies.set("token", token, { expires: 7 });
+        Swal.fire({
+          title: "Login Success!!",
+          text: "Thank You!",
+          icon: "success",
+        });
+        navigate("/");
+      })
+      .catch((err) => {
+        Swal.fire({
+          title: "Login Failed",
+          text: "Try Again",
+          icon: "error",
+        });
+      });
   };
+
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <img
-          className="mx-auto h-10 w-auto"
-          src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-          alt="Your Company"
-        />
+        <div className="flex flex-row justify-center">
+          <h1 className="text-3xl font-bold text-white">
+            <Link to={"/"}>
+              <span className="text-yellow-300">Toko</span>Kita
+            </Link>
+          </h1>
+        </div>
+
         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
           Sign in to your account
         </h2>
@@ -78,7 +118,16 @@ const LoginPage = () => {
               />
             </div>
           </div>
-
+          <div className="flex flex-row justify-end gap-2">
+            <h1 className="text-sm items-center">Tips Login</h1>
+            <button
+              onClick={tipsButton}
+              type="button"
+              className="rounded-full bg-slate-300 h-[5%] w-[6%]"
+            >
+              ?
+            </button>
+          </div>
           <div>
             <button
               type="submit"

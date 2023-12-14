@@ -1,34 +1,102 @@
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { registerHandler, RegisterUser } from "./userSlice";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const RegisterPage = () => {
+  const dispatch = useDispatch();
+  const registerInput = useSelector(RegisterUser);
+  const navigate = useNavigate();
+
+  const inputHandler = (event) => {
+    const { name, value } = event.target;
+    dispatch(registerHandler({ [name]: value }));
+  };
+
+  const registerButton = (e) => {
+    e.preventDefault();
+    const {
+      email,
+      username,
+      password,
+      firstname,
+      lastname,
+      city,
+      street,
+      number,
+      zipcode,
+      lat,
+      long,
+      phone,
+    } = registerInput;
+    const data = {
+      email,
+      username,
+      password,
+      firstname,
+      lastname,
+      address: {
+        city,
+        street,
+        number,
+        zipcode,
+        geolocation: {
+          lat,
+          long,
+        },
+      },
+      phone,
+    };
+    fetch("https://fakestoreapi.com/users", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        Swal.fire({
+          title: "Register Success!!",
+          text: "Please Login!",
+          icon: "success",
+        });
+        navigate("/login");
+      });
+  };
+
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <img
-          className="mx-auto h-10 w-auto"
-          src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-          alt="Your Company"
-        />
+        <div className="flex flex-row justify-center">
+          <h1 className="text-3xl font-bold text-white">
+            <Link to={"/"}>
+              <span className="text-yellow-300">Toko</span>Kita
+            </Link>
+          </h1>
+        </div>
         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
           Register Account
         </h2>
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form className="space-y-6" action="#" method="POST">
+        <form className="space-y-6" onSubmit={registerButton} method="POST">
           <div>
             <label
-              htmlFor="email"
+              htmlFor="firstname"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
               First Name
             </label>
             <div className="mt-2">
               <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
+                id="firstname"
+                name="firstname"
+                type="text"
+                autoComplete="firstname"
+                onChange={inputHandler}
                 required
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
@@ -36,17 +104,18 @@ const RegisterPage = () => {
           </div>
           <div>
             <label
-              htmlFor="email"
+              htmlFor="lastname"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
               Last Name
             </label>
             <div className="mt-2">
               <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
+                onChange={inputHandler}
+                id="lastname"
+                name="lastname"
+                type="text"
+                autoComplete="lastname"
                 required
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
@@ -54,35 +123,18 @@ const RegisterPage = () => {
           </div>
           <div>
             <label
-              htmlFor="email"
-              className="block text-sm font-medium leading-6 text-gray-900"
-            >
-              Email address
-            </label>
-            <div className="mt-2">
-              <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
-          </div>
-          <div>
-            <label
-              htmlFor="email"
+              htmlFor="username"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
               Username
             </label>
             <div className="mt-2">
               <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
+                onChange={inputHandler}
+                id="username"
+                name="username"
+                type="text"
+                autoComplete="username"
                 required
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
@@ -97,9 +149,10 @@ const RegisterPage = () => {
             </label>
             <div className="mt-2">
               <input
+                onChange={inputHandler}
                 id="email"
                 name="email"
-                type="email"
+                type="text"
                 autoComplete="email"
                 required
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -117,6 +170,7 @@ const RegisterPage = () => {
             </div>
             <div className="mt-2">
               <input
+                onChange={inputHandler}
                 id="password"
                 name="password"
                 type="password"
@@ -128,17 +182,18 @@ const RegisterPage = () => {
           </div>
           <div>
             <label
-              htmlFor="email"
+              htmlFor="city"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
               City
             </label>
             <div className="mt-2">
               <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
+                onChange={inputHandler}
+                id="city"
+                name="city"
+                type="text"
+                autoComplete="city"
                 required
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
@@ -146,17 +201,18 @@ const RegisterPage = () => {
           </div>
           <div>
             <label
-              htmlFor="email"
+              htmlFor="street"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
               Street
             </label>
             <div className="mt-2">
               <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
+                onChange={inputHandler}
+                id="street"
+                name="street"
+                type="text"
+                autoComplete="street"
                 required
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
@@ -164,17 +220,18 @@ const RegisterPage = () => {
           </div>
           <div>
             <label
-              htmlFor="email"
+              htmlFor="number"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
               Number
             </label>
             <div className="mt-2">
               <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
+                onChange={inputHandler}
+                id="number"
+                name="number"
+                type="number"
+                autoComplete="number"
                 required
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
@@ -182,17 +239,18 @@ const RegisterPage = () => {
           </div>
           <div>
             <label
-              htmlFor="email"
+              htmlFor="zipcode"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
               Zip Code
             </label>
             <div className="mt-2">
               <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
+                onChange={inputHandler}
+                id="zipcode"
+                name="zipcode"
+                type="zipcode"
+                autoComplete="zipcode"
                 required
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
@@ -200,17 +258,18 @@ const RegisterPage = () => {
           </div>
           <div>
             <label
-              htmlFor="email"
+              htmlFor="lat"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
               Geolocation latitude
             </label>
             <div className="mt-2">
               <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
+                onChange={inputHandler}
+                id="lat"
+                name="lat"
+                type="text"
+                autoComplete="lat"
                 required
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
@@ -218,17 +277,18 @@ const RegisterPage = () => {
           </div>
           <div>
             <label
-              htmlFor="email"
+              htmlFor="long"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
               Geolocation longitude
             </label>
             <div className="mt-2">
               <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
+                onChange={inputHandler}
+                id="long"
+                name="long"
+                type="text"
+                autoComplete="long"
                 required
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
@@ -236,17 +296,18 @@ const RegisterPage = () => {
           </div>
           <div>
             <label
-              htmlFor="email"
+              htmlFor="phone"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
               Phone Number
             </label>
             <div className="mt-2">
               <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
+                onChange={inputHandler}
+                id="phone"
+                name="phone"
+                type="phone"
+                autoComplete="phone"
                 required
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
