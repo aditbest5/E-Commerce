@@ -4,10 +4,19 @@ import { Route, Routes } from "react-router-dom";
 import Layout from "./layouts/Layout";
 import LoginPage from "./features/auth/LoginPage";
 import RegisterPage from "./features/auth/RegisterPage";
+import NotFoundPage from "./features/404NotFound/NotFoundPage";
 function App() {
   return (
     <>
       <Routes>
+        <Route
+          path="*"
+          element={
+            <Layout>
+              <NotFoundPage />
+            </Layout>
+          }
+        />
         <Route
           path="/login"
           element={

@@ -98,7 +98,7 @@ const ProductList = () => {
           <div className="mt-5 flex flex-col justify-end">
             <button
               onClick={() => resetButton(products)}
-              className="block appearance-none bg-indigo-500 text-lime-100 border border-gray-400 hover:border-gray-600 px-4 py-1 rounded shadow leading-tight focus:outline-none focus:border-blue-500 w-[10%]"
+              className="block appearance-none bg-indigo-500 text-lime-100 border border-gray-400 hover:border-gray-600 px-4 py-1 rounded shadow leading-tight focus:outline-none focus:border-blue-500 md:w-[10%] w-[20%]"
             >
               Reset
             </button>
@@ -116,7 +116,7 @@ const ProductList = () => {
             <div className="mt-5 flex flex-col justify-end">
               <button
                 onClick={() => resetButton(products)}
-                className="block appearance-none bg-indigo-500 text-lime-100 border border-gray-400 hover:border-gray-600 px-4 py-1 rounded shadow leading-tight focus:outline-none focus:border-blue-500 w-[10%]"
+                className="block appearance-none bg-indigo-500 text-lime-100 border border-gray-400 hover:border-gray-600 px-4 py-1 rounded shadow leading-tight focus:outline-none focus:border-blue-500 md:w-[10%] w-[20%]"
               >
                 Reset
               </button>
@@ -133,7 +133,7 @@ const ProductList = () => {
             <div className="mt-5 flex flex-col justify-end">
               <button
                 onClick={() => resetButton(products)}
-                className="block appearance-none bg-indigo-500 text-lime-100 border border-gray-400 hover:border-gray-600 px-4 py-1 rounded shadow leading-tight focus:outline-none focus:border-blue-500 w-[10%]"
+                className="block appearance-none bg-indigo-500 text-lime-100 border border-gray-400 hover:border-gray-600 px-4 py-1 rounded shadow leading-tight focus:outline-none focus:border-blue-500 md:w-[10%] w-[20%]"
               >
                 Reset
               </button>
