@@ -18,6 +18,6 @@ FROM base AS runner
 WORKDIR /app
  
 COPY --from=builder /app .
-EXPOSE 5000
+EXPOSE 5173
 # ENV PORT 5000
 CMD ["npm", "run", "dev"]
