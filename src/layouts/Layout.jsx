@@ -1,4 +1,4 @@
-import CartModal from "../features/cart/cartModal";
+import CartModal from "/app/src/features/cart/cartModal";
 import Header from "../components/Header";
 
 import Footer from "../components/Footer";
@@ -18,7 +18,7 @@ const Layout = (props) => {
         <CartModal handleHideModalCart={handleHideModalCart} />
       ) : null}
       <Header handleShowModalCart={handleShowModalCart} />
-      <main className="max-w-7xl mx-auto px-4">{props.children}</main>
+      <main className='max-w-7xl mx-auto px-4'>{props.children}</main>
       <Footer />
     </>
   );
