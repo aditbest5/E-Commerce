@@ -5,15 +5,15 @@ pipeline {
     }
 
     stages {
-        stage('Build') {
-            steps {
-                // script {
-                //     // Membangun image Docker
-                //     sh 'docker build -t aditbest5/ecommerce .'
-                // }
-                sh 'npm install'
-            }
-        }
+        // stage('Build') {
+        //     steps {
+        //         // script {
+        //         //     // Membangun image Docker
+        //         //     sh 'docker build -t aditbest5/ecommerce .'
+        //         // }
+        //         sh 'npm install'
+        //     }
+        // }
 
         stage('Deliver') {
             steps {
@@ -25,7 +25,7 @@ pipeline {
                 //     // Menjalankan container baru dalam mode detached (-d)
                 //     sh 'docker run -d --name ecommerce-container -p 4173:4173 aditbest5/ecommerce &'
                 // }
-                sh 'npm run build'
+                sh 'npm install'
             }
         }
     }
