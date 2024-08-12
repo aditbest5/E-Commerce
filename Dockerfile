@@ -1,28 +1,21 @@
-# Stage 1: Build the React app
-FROM node:16 as build
-
-# Set working directory
+ FROM node:18-alpine AS base
+ 
+FROM base AS deps
+RUN apk add --no-cache libc6-compat
 WORKDIR /app
-
-# Install app dependencies
 COPY package.json package-lock.json ./
-RUN npm ci --cache /tmp/empty-cache --prefer-offline --no-audit --no-fund
-RUN npm install
-
-# Copy app source code
+RUN npm ci
+ 
+FROM base AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-
-# Build the React app, which will output to the 'dist' folder
-# RUN npm run build
-
-# Stage 2: Serve the React app using Nginx
-FROM nginx:alpine
-
-# Copy the build output from 'dist' to the Nginx html directory
-COPY --from=build /app/dist /usr/share/nginx/html
-
-# Expose port 5173 to the outside world
+RUN npm run build && npm cache clean --force
+ 
+FROM base AS runner
+WORKDIR /app
+ 
+COPY --from=builder /app .
 EXPOSE 5173
-
-# Start Nginx server
-CMD ["nginx", "-g", "daemon off;"]
+ENV PORT 5173
+CMD ["npm", "run", "dev"]
