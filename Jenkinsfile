@@ -22,7 +22,7 @@ pipeline {
                     sh 'docker container rm ecommerce-container || true'
 
                     // Menjalankan container baru dalam mode detached (-d)
-                    sh 'docker run -d --name ecommerce-container -p 5173:5173 aditbest5/ecommerce &'
+                    sh 'docker run -d --name ecommerce-container -p 5000:5000 aditbest5/ecommerce &'
                 }
             }
         }

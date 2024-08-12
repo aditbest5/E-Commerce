@@ -19,5 +19,5 @@ WORKDIR /app
  
 COPY --from=builder /app .
 EXPOSE 5000
-ENV PORT 5000
+# ENV PORT 5000
 CMD ["npm", "run", "dev"]
