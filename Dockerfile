@@ -1,4 +1,4 @@
-#// Dockerfile
+# Dockerfile
  
 FROM node:18-alpine AS base
  
@@ -20,4 +20,4 @@ WORKDIR /app
 COPY --from=builder /app .
 EXPOSE 5173
 ENV PORT 5173
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "start"]
