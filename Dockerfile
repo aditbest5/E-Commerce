@@ -20,8 +20,8 @@ FROM nginx:alpine
 # Copy the build output from 'dist' to the Nginx html directory
 COPY --from=build /app/dist /usr/share/nginx/html
 
-# Expose port 80 to the outside world
-EXPOSE 3300
+# Expose port 5173 to the outside world
+EXPOSE 5173
 
 # Start Nginx server
 CMD ["nginx", "-g", "daemon off;"]
