@@ -1,4 +1,4 @@
-import CartModal from "/app/src/features/cart/cartModal";
+import CartModal from "../features/cart/cartModal";
 import Header from "../components/Header";
 
 import Footer from "../components/Footer";
