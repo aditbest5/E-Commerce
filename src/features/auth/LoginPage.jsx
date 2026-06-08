@@ -52,100 +52,105 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <div className="flex flex-row justify-center">
-          <h1 className="text-3xl font-bold text-white">
-            <Link to={"/"}>
-              <span className="text-yellow-300">Toko</span>Kita
-            </Link>
-          </h1>
-        </div>
+    <div className="flex min-h-[80vh] flex-1 flex-col justify-center px-6 py-12 lg:px-8 animate-fade-in-up">
+      <div className="sm:mx-auto sm:w-full sm:max-w-md glass-panel p-8 sm:p-10 rounded-3xl shadow-[0_0_40px_rgba(0,0,0,0.3)] relative overflow-hidden">
+        {/* Decorative background blur */}
+        <div className="absolute -top-24 -right-24 w-48 h-48 bg-brand-primary rounded-full mix-blend-screen filter blur-[60px] opacity-30"></div>
+        <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-brand-accent rounded-full mix-blend-screen filter blur-[60px] opacity-30"></div>
 
-        <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-          Sign in to your account
-        </h2>
-      </div>
-
-      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form className="space-y-6" onSubmit={loginButton} method="POST">
-          <div>
-            <label
-              htmlFor="username"
-              className="block text-sm font-medium leading-6 text-gray-900"
-            >
-              Username
-            </label>
-            <div className="mt-2">
-              <input
-                id="username"
-                onChange={(e) => inputHandler(e)}
-                name="username"
-                type="text"
-                autoComplete="username"
-                required
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
+        <div className="relative z-10">
+            <div className="flex flex-row justify-center mb-8">
+            <h1 className="text-4xl font-extrabold tracking-tight">
+                <Link to={"/"} className="flex items-center gap-1 hover:opacity-80 transition-opacity">
+                <span className="bg-gradient-to-r from-brand-primary to-brand-accent bg-clip-text text-transparent">Toko</span>
+                <span className="text-slate-900 dark:text-white transition-colors duration-300">Kita</span>
+                </Link>
+            </h1>
             </div>
-          </div>
 
-          <div>
-            <div className="flex items-center justify-between">
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Password
-              </label>
-              <div className="text-sm">
-                <a
-                  href="#"
-                  className="font-semibold text-indigo-600 hover:text-indigo-500"
+            <h2 className="mb-8 text-center text-2xl font-bold leading-9 tracking-tight text-slate-800 dark:text-gray-100">
+            Sign in to your account
+            </h2>
+
+            <form className="space-y-6" onSubmit={loginButton} method="POST">
+            <div>
+                <label
+                htmlFor="username"
+                className="block text-sm font-medium leading-6 text-slate-700 dark:text-gray-300 ml-1"
                 >
-                  Forgot password?
-                </a>
-              </div>
+                Username
+                </label>
+                <div className="mt-2">
+                <input
+                    id="username"
+                    onChange={(e) => inputHandler(e)}
+                    name="username"
+                    type="text"
+                    autoComplete="username"
+                    required
+                    className="block w-full rounded-xl border-0 bg-white dark:bg-brand-secondary/50 py-3 px-4 text-slate-800 dark:text-gray-100 shadow-sm ring-1 ring-inset ring-slate-300 dark:ring-white/10 placeholder:text-slate-400 dark:placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-brand-primary sm:text-sm sm:leading-6 transition-all"
+                    placeholder="Enter your username"
+                />
+                </div>
             </div>
-            <div className="mt-2">
-              <input
-                onChange={(e) => inputHandler(e)}
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="current-password"
-                required
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
-          </div>
-          <div className="flex flex-row justify-end gap-2">
-            <h1 className="text-sm items-center">Tips Login</h1>
-            <button
-              onClick={tipsButton}
-              type="button"
-              className="rounded-full bg-slate-300 h-[5%] w-[6%]"
-            >
-              ?
-            </button>
-          </div>
-          <div>
-            <button
-              type="submit"
-              className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              Sign in
-            </button>
-          </div>
-        </form>
 
-        <p className="mt-10 text-center text-sm text-gray-500">
-          Not a member?{" "}
-          <Link to={"/register"}>
-            <a className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
-              Register Here
-            </a>
-          </Link>
-        </p>
+            <div>
+                <div className="flex items-center justify-between ml-1">
+                <label
+                    htmlFor="password"
+                    className="block text-sm font-medium leading-6 text-slate-700 dark:text-gray-300"
+                >
+                    Password
+                </label>
+                <div className="text-sm">
+                    <a
+                    href="#"
+                    className="font-semibold text-brand-primary hover:text-brand-accent transition-colors"
+                    >
+                    Forgot password?
+                    </a>
+                </div>
+                </div>
+                <div className="mt-2">
+                <input
+                    onChange={(e) => inputHandler(e)}
+                    id="password"
+                    name="password"
+                    type="password"
+                    autoComplete="current-password"
+                    required
+                    className="block w-full rounded-xl border-0 bg-white dark:bg-brand-secondary/50 py-3 px-4 text-slate-800 dark:text-gray-100 shadow-sm ring-1 ring-inset ring-slate-300 dark:ring-white/10 placeholder:text-slate-400 dark:placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-brand-primary sm:text-sm sm:leading-6 transition-all"
+                    placeholder="••••••••"
+                />
+                </div>
+            </div>
+            <div className="flex flex-row justify-end items-center gap-2 mt-2">
+                <h1 className="text-xs text-slate-500 dark:text-gray-400">Login Tips</h1>
+                <button
+                onClick={tipsButton}
+                type="button"
+                className="rounded-full bg-slate-200 dark:bg-white/10 hover:bg-slate-300 dark:hover:bg-white/20 text-slate-600 dark:text-gray-300 w-6 h-6 flex items-center justify-center text-xs font-bold transition-colors border border-slate-300 dark:border-white/10"
+                >
+                ?
+                </button>
+            </div>
+            <div className="pt-2">
+                <button
+                type="submit"
+                className="flex w-full justify-center rounded-xl bg-gradient-to-r from-brand-primary to-brand-accent px-3 py-3 text-sm font-semibold leading-6 text-white shadow-[0_0_15px_rgba(99,102,241,0.4)] hover:shadow-[0_0_25px_rgba(99,102,241,0.6)] hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary transition-all transform active:scale-95"
+                >
+                Sign in
+                </button>
+            </div>
+            </form>
+
+            <p className="mt-8 text-center text-sm text-slate-600 dark:text-gray-400">
+            Not a member?{" "}
+            <Link to={"/register"} className="font-semibold leading-6 text-brand-primary hover:text-brand-accent transition-colors">
+                Register Here
+            </Link>
+            </p>
+        </div>
       </div>
     </div>
   );

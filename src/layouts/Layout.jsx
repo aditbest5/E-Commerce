@@ -13,14 +13,16 @@ const Layout = (props) => {
     setIsOpenModalCart(false);
   };
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       {isOpenModalCart ? (
         <CartModal handleHideModalCart={handleHideModalCart} />
       ) : null}
       <Header handleShowModalCart={handleShowModalCart} />
-      <main className='max-w-7xl mx-auto px-4'>{props.children}</main>
+      <main className='flex-grow max-w-7xl mx-auto px-4 w-full animate-fade-in-up pt-8 pb-12'>
+        {props.children}
+      </main>
       <Footer />
-    </>
+    </div>
   );
 };
 

@@ -1,7 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+@layer base {
+  body {
+    @apply bg-slate-50 text-slate-900 font-sans antialiased min-h-screen selection:bg-brand-primary selection:text-white transition-colors duration-300;
+  }
+  
+  html.dark body {
+    @apply bg-brand-darker text-gray-200;
+    background-image: radial-gradient(circle at top right, #1e293b, transparent 40%),
+                      radial-gradient(circle at bottom left, #0f172a, transparent 40%);
+    background-attachment: fixed;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-slate-100 dark:bg-brand-darker;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-300 dark:bg-brand-secondary rounded-full border-2 border-slate-100 dark:border-brand-darker;
+}
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-brand-primary;
+}
+
+/* Glassmorphism Utilities */
+.glass-panel {
+  @apply bg-white/70 dark:bg-white/5 backdrop-blur-md border border-white/40 dark:border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.05)] dark:shadow-[0_8px_32px_0_rgba(0,0,0,0.3)];
 }
